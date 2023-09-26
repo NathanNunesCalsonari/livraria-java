@@ -33,6 +33,18 @@ public class PrimaryController implements Initializable{
     @FXML TableColumn<Livros, String> colGenero;
     @FXML TableColumn<Livros, BigDecimal> colValor;
 
+    @FXML TextField txtNomeDoAutor;
+    @FXML TextField txtIdadeAutor;
+    @FXML TextField txtTelefoneAutor;
+
+    @FXML TableView<Autores> tabela2;
+
+    @FXML TableColumn<Autores, String> colNomeDoAutor;
+    @FXML TableColumn<Autores, Integer> colIdadeDoAutor;
+    @FXML TableColumn<Autores, String> colTelefoneDoAutor;
+
+    
+
     public void adicionar(){
         var livro = new Livros(
             null, 
