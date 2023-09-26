@@ -8,10 +8,12 @@ import java.util.List;
 import com.example.model.Livros;
 
 public class LivrosDao {
+    
+    private Connection conexao;
 
-    static final String URL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-    static final String USER = "rm552537";
-    static final String PASS = "280305";
+    public ClienteDao() throws SQLException {
+        conexao = ConnectionFactory.getConnection();
+    }
 
     public static void inserir(Livros livros) throws SQLException {
         var conexao = DriverManager.getConnection(URL, USER, PASS);
