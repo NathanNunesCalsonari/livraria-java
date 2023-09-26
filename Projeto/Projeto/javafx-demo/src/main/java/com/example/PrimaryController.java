@@ -34,18 +34,16 @@ public class PrimaryController implements Initializable{
     @FXML TableColumn<Livros, BigDecimal> colValor;
 
     @FXML TextField txtNomeDoAutor;
-    @FXML TextField txtIdadeAutor;
-    @FXML TextField txtTelefoneAutor;
+    @FXML TextField txtIdadeDoAutor;
 
     @FXML TableView<Autores> tabela2;
 
     @FXML TableColumn<Autores, String> colNomeDoAutor;
     @FXML TableColumn<Autores, Integer> colIdadeDoAutor;
-    @FXML TableColumn<Autores, String> colTelefoneDoAutor;
 
-    
+    @FXML ComboBox<Autores> cbAutores;
 
-    public void adicionar(){
+    public void adicionarLivro(){
         var livro = new Livros(
             null, 
             txtNomeDoLivro.getText(), 
@@ -63,7 +61,7 @@ public class PrimaryController implements Initializable{
         }
     }
 
-    public void carregar(){
+    public void carregarLivro(){
         tabela.getItems().clear();
         try {
             var livros = LivrosDao.buscarTodos();
@@ -72,8 +70,32 @@ public class PrimaryController implements Initializable{
             e.printStackTrace();
         }
     }
+    
+    public void adicionarAutor(){
+        var autor = new Autores(
+            null, 
+            txtNomeDoAutor.getText(), 
+            txtIdadeDoAutor.getText(), 
+        );
 
+        try{
+            autoresDao.inserir(autor);
+            tabela2.getItems().add(autor);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 
+    public void carregarAutores(){
+        tabela2.getItems().clear();
+        try {
+            var autores = autoresDao.buscarTodos();
+            clientes.forEach(autor -> tabela2.getItems().add(cliente));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void mostrarMensagem(AlertType tipo, String titulo, String mensagem) {
         Alert alert = new Alert(tipo);
         alert.setTitle(titulo);
@@ -81,7 +103,7 @@ public class PrimaryController implements Initializable{
         alert.show();
     }
 
-    public void apagar(){
+    public void apagarLivro(){
         var aluno = lista.getSelectionModel().getSelectedItem();
         try {
             dao.apagar(aluno);
@@ -99,6 +121,18 @@ public class PrimaryController implements Initializable{
         colGenero.setCellValueFactory(new PropertyValueFactory<>("genero"));
         colValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
 
-        carregar();
+        
+
+        try {
+            livrosDao = new LivroDao();
+            autoresDao = new AutorDao();
+            cbCliente.getItems().addAll(clienteDao.buscarTodos());
+        } catch (SQLException e1) {
+            mostrarMensagem("Erro", "Erro ao buscar clientes");
+            e1.printStackTrace();
+        }
+
+        carregarLivro();
+        carregarAutores();
     }
 }
