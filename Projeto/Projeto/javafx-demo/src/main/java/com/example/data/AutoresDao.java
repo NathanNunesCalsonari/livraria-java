@@ -9,11 +9,11 @@ import com.example.model.Autores;
 
 public class AutoresDao {
 
-    public class LivrosDao {
+    private Connection conexao;
 
-    static final String URL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-    static final String USER = "rm552537";
-    static final String PASS = "280305";
+    public ClienteDao() throws SQLException {
+        conexao = ConnectionFactory.getConnection();
+    }
 
     public static void inserir(Autores autores) throws SQLException {
         var conexao = DriverManager.getConnection(URL, USER, PASS);
